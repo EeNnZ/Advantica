@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using AdvanticaServer.Protos;
 
 namespace AdvanticaServer.Services
 {

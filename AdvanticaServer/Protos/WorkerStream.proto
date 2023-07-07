@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "AdvanticaServer";
+option csharp_namespace = "AdvanticaServer.Protos";
 
 service WorkerIntegration {
 	rpc GetWorkerStream (EmptyMessage) returns (stream WorkerAction);
@@ -23,7 +23,7 @@ message WorkerMessage
 	string MiddleName = 3;
 	int64 Birthday = 4;
 	Sex Sex = 5;
-	bool HaveChildren = 6;
+	bool HasChildren = 6;
 }
 
 //Пол

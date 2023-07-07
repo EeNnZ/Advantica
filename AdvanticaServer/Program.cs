@@ -1,10 +1,12 @@
 using AdvanticaServer.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace AdvanticaServer
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,25 @@ namespace AdvanticaServer
             // Add services to the container.
             builder.Services.AddGrpc();
 
+            builder.Services.AddDbContext<AdvanticaContext>(op =>
+            {
+                op.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+                op.LogTo(s =>
+                {
+                    Debug.WriteLine(s);
+                    using TextWriter writer = File.AppendText("app_log.txt");
+                    writer.WriteLine(s);
+                });
+            });
+
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AdvanticaContext>();
+
+                await context.Database.EnsureCreatedAsync();
+            }
 
             // Configure the HTTP request pipeline.
             app.MapGrpcService<WorkerStreamService>();
