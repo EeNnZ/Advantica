@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "AdvanticaServer.Protos";
+option csharp_namespace = "Advantica.Server.Protos";
 
 service WorkerIntegration {
 	rpc GetWorkerStream (EmptyMessage) returns (stream WorkerAction);

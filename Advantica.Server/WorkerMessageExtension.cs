@@ -1,7 +1,7 @@
-﻿using AdvanticaServer.Protos;
+﻿using Advantica.Server.Protos;
 using System.Runtime.CompilerServices;
 
-namespace AdvanticaServer
+namespace Advantica.Server
 {
     public static class WorkerMessageExtension
     {

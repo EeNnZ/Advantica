@@ -1,8 +1,8 @@
 ﻿using Grpc.Core;
-using AdvanticaServer.Protos;
+using Advantica.Server.Protos;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdvanticaServer.Services
+namespace Advantica.Server.Services
 {
     public class WorkerService : WorkerIntegration.WorkerIntegrationBase
     {
@@ -32,7 +32,7 @@ namespace AdvanticaServer.Services
             {
                 var workerAction = new WorkerAction()
                 {
-                    ActionType = Protos.Action.Read,
+                    ActionType = Advantica.Server.Protos.Action.Read,
                     Worker = new WorkerMessage().FromEntity(worker)
                 };
                 await responseStream.WriteAsync(workerAction);
@@ -86,7 +86,7 @@ namespace AdvanticaServer.Services
             worker.Id = 0;
 
             var result = _dbContext.Workers.Add(worker);
-            if (result == null) 
+            if (result == null)
             {
                 throw new RpcException(new Status(StatusCode.Unknown, "Result of DbContext.Add() was null"));
             }

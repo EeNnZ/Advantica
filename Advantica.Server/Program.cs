@@ -1,8 +1,8 @@
-using AdvanticaServer.Services;
+using Advantica.Server.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace AdvanticaServer
+namespace Advantica.Server
 {
     public class Program
     {

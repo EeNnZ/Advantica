@@ -1,7 +1,7 @@
-﻿<Application x:Class="AdvanticaGuiClient.App"
+﻿<Application x:Class="Advantica.Gui.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:AdvanticaGuiClient"
+             xmlns:local="clr-namespace:Advantica.Gui"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

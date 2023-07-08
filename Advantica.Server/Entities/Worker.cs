@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AdvanticaServer.Entities
+namespace Advantica.Server.Entities
 {
     public class Worker
     {
@@ -27,6 +27,6 @@ namespace AdvanticaServer.Entities
         public int SexId { get; set; }
 
         [Required]
-        public virtual Entities.Sex Sex { get; set; }
+        public virtual Sex Sex { get; set; }
     }
 }

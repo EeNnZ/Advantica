@@ -1,7 +1,7 @@
-﻿using AdvanticaServer.Entities;
+﻿using Advantica.Server.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace AdvanticaServer
+namespace Advantica.Server
 {
     public class AdvanticaContext : DbContext
     {
@@ -14,8 +14,8 @@ namespace AdvanticaServer
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Sex>()
-                .HasData(Enum.GetValues<AdvanticaServer.Protos.Sex>()
-                .Cast<AdvanticaServer.Protos.Sex>()
+                .HasData(Enum.GetValues<Advantica.Server.Protos.Sex>()
+                .Cast<Advantica.Server.Protos.Sex>()
                 .Select(s => new Sex()
                 {
                     Id = (int)s,
