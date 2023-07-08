@@ -24,6 +24,9 @@ namespace AdvanticaServer.Entities
         public bool HasChildren { get; set; }
 
         [Required]
+        public int SexId { get; set; }
+
+        [Required]
         public virtual Entities.Sex Sex { get; set; }
     }
 }

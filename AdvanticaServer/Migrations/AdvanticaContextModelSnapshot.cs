@@ -33,7 +33,7 @@ namespace AdvanticaServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sex");
+                    b.ToTable("Sex", (string)null);
 
                     b.HasData(
                         new
@@ -85,7 +85,7 @@ namespace AdvanticaServer.Migrations
 
                     b.HasIndex("SexId");
 
-                    b.ToTable("Workers");
+                    b.ToTable("Workers", (string)null);
                 });
 
             modelBuilder.Entity("AdvanticaServer.Entities.Worker", b =>

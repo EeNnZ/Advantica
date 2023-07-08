@@ -4,6 +4,10 @@ option csharp_namespace = "AdvanticaServer.Protos";
 
 service WorkerIntegration {
 	rpc GetWorkerStream (EmptyMessage) returns (stream WorkerAction);
+	rpc GetWorkerById (WorkerRowIdMessage) returns (WorkerAction);
+	rpc PostWorker (WorkerAction) returns (WorkerAction);
+	rpc PutWorker (WorkerAction) returns (WorkerAction);
+	rpc DeleteWorker (WorkerRowIdMessage) returns (EmptyMessage);
 }
 
 message EmptyMessage
@@ -24,6 +28,12 @@ message WorkerMessage
 	int64 Birthday = 4;
 	Sex Sex = 5;
 	bool HasChildren = 6;
+	WorkerRowIdMessage RowIdMessage = 7;
+}
+
+message WorkerRowIdMessage
+{
+	int32 WorkerRowId = 1;
 }
 
 //Пол
@@ -34,7 +44,7 @@ enum Sex {
 }
 
 enum Action {
-	UnknownAction = 0;
+	Read = 0;
 	Create = 1;
 	Update = 2;
 	Delete = 3;
