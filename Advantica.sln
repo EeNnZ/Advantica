@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advantica.Server", "Advanti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advantica.IntegrationSystem", "Advantica.IntegrationSystem\Advantica.IntegrationSystem.csproj", "{B4894A9E-8474-4836-8ECC-1B23D9F8437D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advantica.Gui", "Advantica.Gui\Advantica.Gui.csproj", "{B697A490-DE02-4E44-8D5E-8C69BC1FF525}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B4894A9E-8474-4836-8ECC-1B23D9F8437D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4894A9E-8474-4836-8ECC-1B23D9F8437D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4894A9E-8474-4836-8ECC-1B23D9F8437D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B697A490-DE02-4E44-8D5E-8C69BC1FF525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B697A490-DE02-4E44-8D5E-8C69BC1FF525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B697A490-DE02-4E44-8D5E-8C69BC1FF525}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B697A490-DE02-4E44-8D5E-8C69BC1FF525}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -39,7 +39,9 @@ namespace Advantica.Server
                 FirstName = message.FirstName,
                 LastName = message.LastName,
                 MiddleName = message.MiddleName ?? "",
-                Birthday = DateTime.FromBinary(message.Birthday),
+
+                //Use ToUniversalTime() cause of postgres "timestamp with time zone" column type
+                Birthday = DateTime.FromBinary(message.Birthday).ToUniversalTime(),
                 SexId = (int)message.Sex,
                 HasChildren = message.HasChildren
             };
