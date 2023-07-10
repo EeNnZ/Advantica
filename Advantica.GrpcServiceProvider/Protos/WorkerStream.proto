@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option csharp_namespace = "Advantica.GrpcServiceProvider.Protos";
+
+service WorkerIntegration {
+	rpc GetWorkerStream (EmptyMessage) returns (stream WorkerAction);
+	rpc GetWorkerById (WorkerRowIdMessage) returns (WorkerAction);
+	rpc PostWorker (WorkerAction) returns (WorkerAction);
+	rpc PutWorker (WorkerAction) returns (WorkerAction);
+	rpc DeleteWorker (WorkerRowIdMessage) returns (EmptyMessage);
+}
+
+message EmptyMessage
+{
+}
+
+message WorkerAction
+{
+	WorkerMessage worker = 1;
+	Action actionType = 2;
+}
+
+message WorkerMessage
+{
+	string LastName = 1;
+	string FirstName = 2;
+	string MiddleName = 3;
+	int64 Birthday = 4;
+	Sex Sex = 5;
+	bool HasChildren = 6;
+	WorkerRowIdMessage RowIdMessage = 7;
+}
+
+message WorkerRowIdMessage
+{
+	int32 WorkerRowId = 1;
+}
+
+//Пол
+enum Sex {
+	UnknownSex = 0;
+	Male = 1;
+	Female = 2;
+}
+
+enum Action {
+	Read = 0;
+	Create = 1;
+	Update = 2;
+	Delete = 3;
+}
