@@ -1,0 +1,137 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Advantica.Gui.ViewModels"    
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    x:Class="Advantica.Gui.Views.AdvanticaWindow"
+    mc:Ignorable="d"
+    Title="Advantica" Height="450" Width="800"
+    x:Name="MainWindow">
+    <Window.DataContext>
+        <viewModels:MainViewModel x:Name="vm">
+        </viewModels:MainViewModel>
+    </Window.DataContext>
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction
+                Command="{Binding GetWorkersCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid x:Name="menuPane">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="textBlockSiginStatus"
+                Grid.Column="1"
+                Margin="5"
+                Text="status" />
+        </Grid>
+        <Grid x:Name="contentPane" Grid.Row="1">
+            <TabControl>
+                <TabItem Header="List of workers">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Button Command="{Binding GetWorkersCommand}" Content="Get workers" />
+                        <ListView x:Name="listBoxWorkers" 
+                                  Grid.Row="1" 
+                                  ItemsSource="{Binding WorkersCollection}" 
+                                  d:ItemsSource="{d:SampleData ItemCount=5}"
+                                  SelectedItem="{Binding SelectedWorker}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="FirstName" DisplayMemberBinding="{Binding FirstName}" />
+                                    <GridViewColumn Header="Middle name" DisplayMemberBinding="{Binding MiddleName}" />
+                                    <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName}" />
+                                    <GridViewColumn Header="Birthday" DisplayMemberBinding="{Binding Birthday}" />
+                                    <GridViewColumn Header="Sex" DisplayMemberBinding="{Binding Sex}" />
+                                    <GridViewColumn Header="Has children" DisplayMemberBinding="{Binding HasChildren}" />
+                                </GridView>
+                            </ListView.View>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            HorizontalAlignment="Right" Margin="5">
+                            <Button
+                                x:Name="DeleteButton"
+                                Grid.Column="1"
+                                Grid.Row="2"
+                                MinWidth="75"
+                                Command="{Binding DeleteWorkerCommand}"
+                                CommandParameter="{Binding SelectedWorker}"
+                                Content="Delete" 
+                                Margin="0,0,5,0"
+                                FontSize="14"/>
+                            <Button
+                                x:Name="UpdateButton"
+                                Grid.Column="1"
+                                Grid.Row="2"
+                                MinWidth="75"
+                                Click="UpdateButton_Click"
+                                Content="Update" 
+                                FontSize="14"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Add worker" x:Name="addWorkerTab">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Content="First Name:" Grid.Row="0"/>
+                        <TextBox x:Name="textBoxWorkerFirstName" Text="{Binding SelectedWorker.FirstName}" Grid.Row="0" Grid.Column="1" Margin="2"/>
+                        <Label Content="Middle Name:" Grid.Row="1"/>
+                        <TextBox x:Name="textBoxWorkerMiddleName" Text="{Binding SelectedWorker.MiddleName}" Grid.Row="1" Grid.Column="1" Margin="2"/>
+                        <Label Content="Last Name:" Grid.Row="2"/>
+                        <TextBox x:Name="textBoxWorkerLastName" Text="{Binding SelectedWorker.LastName}" Grid.Row="2" Grid.Column="1" Margin="2"/>
+                        <Label Content="Birthday:" Grid.Row="3"/>
+                        <TextBox x:Name="textBoxWorkerBirtday" Text="{Binding SelectedWorker.Birthday}" Grid.Row="3" Grid.Column="1" Margin="2"/>
+                        <Label Content="Sex:" Grid.Row="4"/>
+                        <TextBox x:Name="textBoxWorkerSex" Text="{Binding SelectedWorker.Sex}" Grid.Row="4" Grid.Column="1" Margin="2"/>
+                        <Label Content="Has children:" Grid.Row="5"/>
+                        <TextBox x:Name="textBoxWorkerHasChildren" Text="{Binding SelectedWorker.HasChildren}" Grid.Row="5" Grid.Column="1" Margin="2"/>
+                        <Button
+                            Grid.Row="6"
+                            Grid.ColumnSpan="2"
+                            MinWidth="75"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding CreateNewWorkerCommand}"
+                            CommandParameter="{Binding SelectedWorker}"
+                            Content="Add" />
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>

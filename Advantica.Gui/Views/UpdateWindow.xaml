@@ -1,0 +1,62 @@
+﻿<Window x:Class="Advantica.Gui.Views.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Advantica.Gui.Views"
+        xmlns:viewModels="clr-namespace:Advantica.Gui.ViewModels"
+        mc:Ignorable="d"
+        Title="UpdateWindow" Height="450" Width="800">
+
+    <Grid Margin="5">
+        <Grid.DataContext>
+            <viewModels:MainViewModel/>
+        </Grid.DataContext>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Content="First Name:" Grid.Row="0"/>
+        <TextBox x:Name="textBoxWorkerFirstName" Text="{Binding SelectedWorker.FirstName}" Grid.Row="0" Grid.Column="1" Margin="2"/>
+        <Label Content="Middle Name:" Grid.Row="1"/>
+        <TextBox x:Name="textBoxWorkerMiddleName" Text="{Binding SelectedWorker.MiddleName}" Grid.Row="1" Grid.Column="1" Margin="2"/>
+        <Label Content="Last Name:" Grid.Row="2"/>
+        <TextBox x:Name="textBoxWorkerLastName" Text="{Binding SelectedWorker.LastName}" Grid.Row="2" Grid.Column="1" Margin="2"/>
+        <Label Content="Birthday:" Grid.Row="3"/>
+        <TextBox x:Name="textBoxWorkerBirtday" Text="{Binding SelectedWorker.Birthday}" Grid.Row="3" Grid.Column="1" Margin="2"/>
+        <Label Content="Sex:" Grid.Row="4"/>
+        <TextBox x:Name="textBoxWorkerSex" Text="{Binding SelectedWorker.Sex}" Grid.Row="4" Grid.Column="1" Margin="2"/>
+        <Label Content="Has children:" Grid.Row="5"/>
+        <TextBox x:Name="textBoxWorkerHasChildren" Text="{Binding SelectedWorker.HasChildren}" Grid.Row="5" Grid.Column="1" Margin="2"/>
+        <StackPanel 
+            Orientation="Horizontal"
+            Grid.Row="6"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Right">
+            <Button
+                MinWidth="75"
+                Margin="0,5,2,0"
+                HorizontalAlignment="Right"
+                Click="UpdateButton_Click"
+                Content="Update" />
+            <Button
+                x:Name="CancelButton"
+                MinWidth="75"
+                Margin="0,5,2,0"
+                HorizontalAlignment="Right"
+                Click="CancelButton_Click"
+                Content="Cancel" />
+        </StackPanel>
+            
+    </Grid>
+</Window>
