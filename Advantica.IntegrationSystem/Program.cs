@@ -2,6 +2,7 @@
 using Advantica.IntegrationSystem.Protos;
 using Microsoft.Extensions.Configuration;
 using Advantica.IntegrationSystem.Options;
+using System.Reflection;
 
 namespace Advantica.IntegrationSystem
 {
@@ -14,23 +15,19 @@ namespace Advantica.IntegrationSystem
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            string? url = config.GetSection("url").Value;
-            bool minMsParsed = int.TryParse(config.GetSection("min_ms").Value, out int minMs);
-            bool maxMsParsed = int.TryParse(config.GetSection("max_ms").Value, out int maxMs);
-
-            if (!minMsParsed || !maxMsParsed || string.IsNullOrEmpty(url))
+            var options = new IntegrationServiceOptions()
             {
-                Console.WriteLine("appsettings.json invalid, press Enter to exit...");
+                Url = config.GetSection("settings")["url"],
+                MinimumInactiveTimePeriodMilliseconds = int.TryParse(config.GetSection("settings")["min_ms"], out int minMs) ? minMs : 0,
+                MaximumInactiveTimePeriodMilliseconds = int.TryParse(config.GetSection("settings")["max_ms"], out int maxMs) ? maxMs : 0,
+            };
+            if (string.IsNullOrEmpty(options.Url) ||  options.MinimumInactiveTimePeriodMilliseconds <= 0
+                || options.MaximumInactiveTimePeriodMilliseconds <= 0)
+            {
+                Console.WriteLine("invalid appsettings.json\npress Enter to exit...");
                 Console.ReadLine();
                 return;
             }
-
-            var options = new IntegrationServiceOptions()
-            {
-                Url = url,
-                MinimumInactiveTimePeriodMilliseconds = minMs,
-                MaximumInactiveTimePeriodMilliseconds = maxMs
-            };
 
 
             var service = new IntegrationService(options);
