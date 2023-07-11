@@ -42,6 +42,7 @@ namespace Advantica.Gui.ViewModels
         public MainViewModel()
         {
             WorkersCollection = new ObservableCollection<WorkerMessage>();
+            //TODO: add appsettings
             _grpcClient = new GrpcClientProvider("http://localhost:5000").GetWorkerIntegrationClient();
         }
 

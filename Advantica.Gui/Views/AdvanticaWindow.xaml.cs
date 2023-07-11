@@ -1,4 +1,5 @@
-﻿using Advantica.Gui.ViewModels;
+﻿using Advantica.GrpcServiceProvider.Protos;
+using Advantica.Gui.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,16 @@ namespace Advantica.Gui.Views
             DataContext = _viewModel;
             listBoxWorkers.ItemsSource = _viewModel.WorkersCollection;
             addWorkerTab.GotFocus += AddWorkerTab_GotFocus;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxWorkers.ItemsSource);
+            PropertyGroupDescription propertyGroupDescription = new PropertyGroupDescription("FirstName[0]");
+            view.GroupDescriptions.Add(propertyGroupDescription);
+            view.Filter = (item) =>
+            {
+                if (string.IsNullOrEmpty(searchTextBox.Text)) return true;
+                else 
+                    return (item as WorkerMessage).FirstName.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase);
+            };
         }
 
         private void AddWorkerTab_GotFocus(object sender, RoutedEventArgs e)
@@ -47,6 +58,11 @@ namespace Advantica.Gui.Views
                 }
             }
             else MessageBox.Show("Select row before deleting", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void searchTextBlock_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(listBoxWorkers.ItemsSource).Refresh();
         }
     }
 }

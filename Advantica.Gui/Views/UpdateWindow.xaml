@@ -33,11 +33,18 @@
         <Label Content="Last Name:" Grid.Row="2"/>
         <TextBox x:Name="textBoxWorkerLastName" Text="{Binding SelectedWorker.LastName}" Grid.Row="2" Grid.Column="1" Margin="2"/>
         <Label Content="Birthday:" Grid.Row="3"/>
-        <TextBox x:Name="textBoxWorkerBirtday" Text="{Binding SelectedWorker.Birthday}" Grid.Row="3" Grid.Column="1" Margin="2"/>
+        <DatePicker x:Name="datePickerWorkerBirtday" Text="{Binding SelectedWorker.Birthday}" Grid.Row="3" Grid.Column="1" Margin="2"/>
         <Label Content="Sex:" Grid.Row="4"/>
         <TextBox x:Name="textBoxWorkerSex" Text="{Binding SelectedWorker.Sex}" Grid.Row="4" Grid.Column="1" Margin="2"/>
         <Label Content="Has children:" Grid.Row="5"/>
-        <TextBox x:Name="textBoxWorkerHasChildren" Text="{Binding SelectedWorker.HasChildren}" Grid.Row="5" Grid.Column="1" Margin="2"/>
+        <ComboBox x:Name="comboBoxWorkerHasChildren" 
+          SelectedIndex="{Binding SelectedWorker.HasChildren}" 
+          Grid.Row="5"
+          Grid.Column="1"
+          Margin="2">
+            <ComboBoxItem>True</ComboBoxItem>
+            <ComboBoxItem>False</ComboBoxItem>
+        </ComboBox>
         <StackPanel 
             Orientation="Horizontal"
             Grid.Row="6"

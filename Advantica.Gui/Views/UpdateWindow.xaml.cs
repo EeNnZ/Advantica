@@ -27,26 +27,46 @@ namespace Advantica.Gui.Views
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
-            textBoxWorkerFirstName.Text = _viewModel.SelectedWorker?.FirstName;
-            textBoxWorkerLastName.Text = _viewModel.SelectedWorker?.LastName;
-            textBoxWorkerMiddleName.Text = _viewModel.SelectedWorker?.MiddleName;
-            textBoxWorkerBirtday.Text = _viewModel.SelectedWorker?.Birthday.ToString();
-            textBoxWorkerHasChildren.Text = _viewModel.SelectedWorker?.HasChildren.ToString();
-            textBoxWorkerSex.Text = _viewModel.SelectedWorker?.Sex.ToString();
+
+            WorkerMessage? worker = _viewModel.SelectedWorker;
+            if (worker != null)
+            {
+                textBoxWorkerFirstName.Text = worker.FirstName;
+                textBoxWorkerLastName.Text = worker.LastName;
+                textBoxWorkerMiddleName.Text = worker.MiddleName;
+                datePickerWorkerBirtday.Text = DateTime.FromBinary(worker.Birthday).ToString();
+                comboBoxWorkerHasChildren.Text = worker.HasChildren.ToString();
+                textBoxWorkerSex.Text = worker.Sex.ToString();
+            }
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
+            Sex sex;
+            if (textBoxWorkerSex.Text.ToLower() == Sex.Male.ToString().ToLower())
+            {
+                sex = Sex.Male;
+            }
+            else if (textBoxWorkerSex.Text.ToLower() == Sex.Female.ToString().ToLower())
+            {
+                sex = Sex.Female;
+            }
+            else
+            {
+                sex = Sex.UnknownSex;
+            }
+
             var workerMessage = new WorkerMessage()
             {
                 FirstName = textBoxWorkerFirstName.Text,
                 LastName = textBoxWorkerLastName.Text,
                 MiddleName = textBoxWorkerMiddleName.Text,
-                Birthday = long.TryParse(textBoxWorkerBirtday.Text, out long binDate) ? binDate : 0,
-                HasChildren = bool.TryParse(textBoxWorkerHasChildren.Text, out bool hasChildren) && hasChildren,
-                Sex = string.Compare(textBoxWorkerSex.Text, Sex.Male.ToString(), StringComparison.OrdinalIgnoreCase) == 0 ? Sex.Female : Sex.Male
+                Birthday = datePickerWorkerBirtday.DisplayDate.ToBinary(),
+                HasChildren = bool.TryParse(comboBoxWorkerHasChildren.Text, out bool hasChildren) && hasChildren,
+                Sex = sex
             };
             _viewModel.UpdateWorkerCommand.Execute(workerMessage);
+            Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
