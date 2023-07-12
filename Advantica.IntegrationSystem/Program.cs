@@ -1,5 +1,4 @@
 ﻿using Advantica.IntegrationSystem.Services;
-using Advantica.IntegrationSystem.Protos;
 using Microsoft.Extensions.Configuration;
 using Advantica.IntegrationSystem.Options;
 using System.Reflection;
@@ -17,7 +16,7 @@ namespace Advantica.IntegrationSystem
 
             var options = new IntegrationServiceOptions()
             {
-                Url = config.GetSection("settings")["url"],
+                Url = config.GetSection("settings")["url"] ??= "",
                 MinimumInactiveTimePeriodMilliseconds = int.TryParse(config.GetSection("settings")["min_ms"], out int minMs) ? minMs : 0,
                 MaximumInactiveTimePeriodMilliseconds = int.TryParse(config.GetSection("settings")["max_ms"], out int maxMs) ? maxMs : 0,
             };

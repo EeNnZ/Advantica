@@ -1,7 +1,11 @@
-﻿using Advantica.GrpcServiceProvider.Protos;
+﻿using Advantica.GrpcServiceProvider;
+using Advantica.GrpcServiceProvider.Protos;
+using Advantica.Gui.Options;
 using Advantica.Gui.ViewModels;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +42,7 @@ namespace Advantica.Gui.Views
             {
                 if (string.IsNullOrEmpty(searchTextBox.Text)) return true;
                 else 
-                    return (item as WorkerMessage).FirstName.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase);
+                    return ((WorkerMessage)item).FirstName.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase);
             };
         }
 

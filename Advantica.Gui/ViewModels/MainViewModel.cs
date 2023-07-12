@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Collections;
 using Advantica.GrpcServiceProvider;
 using System.Net.WebSockets;
 using System.ComponentModel.DataAnnotations;
+using Advantica.Gui.Options;
 
 namespace Advantica.Gui.ViewModels
 {
@@ -39,11 +40,15 @@ namespace Advantica.Gui.ViewModels
 
         public ObservableCollection<WorkerMessage>? WorkersCollection { get; set; }
 
+        public IOptions Options { get; }
+
         public MainViewModel()
         {
+            var opProvider = new OptionsProvider();
+            Options = opProvider.GetOptions();
+
             WorkersCollection = new ObservableCollection<WorkerMessage>();
-            //TODO: add appsettings
-            _grpcClient = new GrpcClientProvider("http://localhost:5000").GetWorkerIntegrationClient();
+            _grpcClient = new GrpcClientProvider(Options.Url).GetWorkerIntegrationClient();
         }
 
         [RelayCommand]

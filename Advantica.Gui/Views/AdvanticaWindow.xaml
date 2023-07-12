@@ -62,8 +62,7 @@
                         <Button Command="{Binding GetWorkersCommand}" Content="Get workers" />
                         <ListView x:Name="listBoxWorkers" 
                                   Grid.Row="1" 
-                                  ItemsSource="{Binding WorkersCollection}" 
-                                  d:ItemsSource="{d:SampleData ItemCount=5}"
+                                  ItemsSource="{Binding WorkersCollection}"
                                   SelectedItem="{Binding SelectedWorker}">
                             <ListView.View>
                                 <GridView>
