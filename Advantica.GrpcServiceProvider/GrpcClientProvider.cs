@@ -4,14 +4,23 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace Advantica.GrpcServiceProvider
 {
+    /// <summary>
+    /// Provides a <see cref="WorkerIntegration.WorkerIntegrationClient"></see> object which could be used and reused by clients.
+    /// </summary>
     public class GrpcClientProvider : IDisposable
     {
         private readonly string _defaultUrl = "http://localhost:5249";
 
         private WorkerIntegration.WorkerIntegrationClient _workerIntegrationClient = null!;
 
+        /// <summary>
+        /// Url to use with <see cref="DefaultRpcChannel"></see>. Not null.
+        /// </summary>
         public string ServiceUrl { get; } = null!;
 
+        /// <summary>
+        /// Default channel for provided <see cref="WorkerIntegration.WorkerIntegrationClient"/>
+        /// </summary>
         public Lazy<GrpcChannel> DefaultRpcChannel { get; private set; }
 
         public GrpcClientProvider()
@@ -19,12 +28,17 @@ namespace Advantica.GrpcServiceProvider
             ServiceUrl = _defaultUrl;
             DefaultRpcChannel = new Lazy<GrpcChannel>(GrpcChannel.ForAddress(ServiceUrl));
         }
+
         public GrpcClientProvider(string serviceUrl)
         {
             ServiceUrl = UrlValid(serviceUrl) ? serviceUrl : _defaultUrl;
             DefaultRpcChannel = new Lazy<GrpcChannel>(GrpcChannel.ForAddress(ServiceUrl));
         }
 
+        /// <summary>
+        /// Provides a <see cref="WorkerIntegration.WorkerIntegrationClient"/> which is set up and reusable
+        /// </summary>
+        /// <returns><see cref="WorkerIntegration.WorkerIntegrationClient"></see> object.</returns>
         public WorkerIntegration.WorkerIntegrationClient GetWorkerIntegrationClient()
         {
             return _workerIntegrationClient ??= new WorkerIntegration.WorkerIntegrationClient(DefaultRpcChannel.Value);

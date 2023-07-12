@@ -4,6 +4,9 @@ using System.Threading;
 
 namespace Advantica.Gui.ViewModels
 {
+    /// <summary>
+    /// Not used
+    /// </summary>
     public abstract class AbstractBindable : INotifyPropertyChanged
     {
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")

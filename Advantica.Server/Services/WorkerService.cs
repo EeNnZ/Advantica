@@ -12,6 +12,11 @@ namespace Advantica.Server.Services
             _dbContext = context;
         }
 
+        /// Compares incoming stream with each database entry to find differences.
+        /// </summary>
+        /// <param name="requestStream"></param>
+        /// <param name="context"></param>
+        /// <returns>A <see cref="DatabaseModifiedMessage"/> object contains info whether database has out of sync modifies or not.</returns>
         public override async Task<DatabaseModifiedMessage> CheckIfDatabaseModified(IAsyncStreamReader<WorkerMessage> requestStream, ServerCallContext context)
         {
             var entries = _dbContext.Workers.ToArray();
@@ -32,6 +37,7 @@ namespace Advantica.Server.Services
 
             return response;
         }
+
         /// <summary>
         /// Writes all workers into response stream.
         /// </summary>
@@ -64,7 +70,7 @@ namespace Advantica.Server.Services
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
-        /// <returns>A <c>WorkerAction</c> object that contains requested worker.</returns>
+        /// <returns>A <see cref="WorkerAction"/> object that contains requested worker.</returns>
         /// <exception cref="RpcException"></exception>
         public override Task<WorkerAction> GetWorkerById(WorkerRowIdMessage request, ServerCallContext context)
         {
@@ -94,7 +100,7 @@ namespace Advantica.Server.Services
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
-        /// <returns>A <c>WorkerAction</c> object that contains posted worker.</returns>
+        /// <returns>A <see cref="WorkerAction"/> object that contains posted worker.</returns>
         public override Task<WorkerAction> PostWorker(WorkerAction request, ServerCallContext context)
         {
 
@@ -135,7 +141,7 @@ namespace Advantica.Server.Services
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
-        /// <returns><c>WorkerAction</c> object that contains updated worker.</returns>
+        /// <returns><see cref="WorkerAction"/> object that contains updated worker.</returns>
         /// <exception cref="RpcException"></exception>
         public override Task<WorkerAction> PutWorker(WorkerAction request, ServerCallContext context)
         {
@@ -171,7 +177,7 @@ namespace Advantica.Server.Services
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
-        /// <returns><c>EmptyMessage</c></returns>
+        /// <returns><see cref="EmptyMessage"/></returns>
         /// <exception cref="RpcException"></exception>
         public override Task<EmptyMessage> DeleteWorker(WorkerRowIdMessage request, ServerCallContext context)
         {

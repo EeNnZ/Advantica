@@ -9,7 +9,7 @@ using System.Windows.Navigation;
 namespace Advantica.Gui.Commands
 {
     /// <summary>
-    /// ICommand implementation
+    /// ICommand implementation. Not used.
     /// </summary>
     internal class Command : ICommand
     {

@@ -13,6 +13,9 @@ using Timer = System.Timers.Timer;
 
 namespace Advantica.IntegrationSystem.Services
 {
+    /// <summary>
+    /// A service working independetly and modifies database in a random timestamps.
+    /// </summary>
     internal class IntegrationService : IDisposable
     {
         private readonly GrpcClientProvider _grpcClientProvider;
@@ -23,12 +26,24 @@ namespace Advantica.IntegrationSystem.Services
         private Random _random;
         private Timer _timer;
 
+        /// <summary>
+        /// Returns internal timer.
+        /// </summary>
         public Timer Timer => _timer;
 
+        /// <summary>
+        /// Determines when the next action will be fired.
+        /// </summary>
         public double NextFire => _timer.Interval / 1000;
 
+        /// <summary>
+        /// Determines grpc service url and timespans for random generator.
+        /// </summary>
         public IntegrationServiceOptions ServiceOptions { get; set; }
 
+        /// <summary>
+        /// Grpc client that service uses.
+        /// </summary>
         public GrpcServiceProvider.Protos.WorkerIntegration.WorkerIntegrationClient GrpcClient { get; private set; }
 
         public IntegrationService(IntegrationServiceOptions serviceOptions)
@@ -47,6 +62,10 @@ namespace Advantica.IntegrationSystem.Services
             _timer.Elapsed += TimerElapsed;
         }
 
+        /// <summary>
+        /// Chooses random worker from database then modifies it.
+        /// </summary>
+        /// <returns><see cref="Task"/></returns>
         public async Task UpdateRandomWorker()
         {
             var data = GrpcClient.GetWorkerStream(new GrpcServiceProvider.Protos.EmptyMessage());
@@ -87,6 +106,9 @@ namespace Advantica.IntegrationSystem.Services
             Console.WriteLine($"Worker: {randomWorker.RowIdMessage.WorkerRowId} updated. New last name: {randomWorker.LastName}, HasChildren: {randomWorker.HasChildren}");
         }
 
+        /// <summary>
+        /// Creates a new worker which properties based on random.
+        /// </summary>
         public void CreateNewWorker()
         {
             var random = new Random();

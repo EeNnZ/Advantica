@@ -6,11 +6,11 @@ namespace Advantica.Server
     public static class WorkerMessageExtension
     {
         /// <summary>
-        /// Converts <c>Worker</c> entity to <c>WorkerMessage</c> for data transfering.
+        /// Converts <see cref="Entities.Worker"/> entity to <see cref="Protos.WorkerMessage"/> for data transfering.
         /// </summary>
         /// <param name="message"></param>
         /// <param name="worker"></param>
-        /// <returns>A <c>WorkerMessage</c> converted from <c>Worker</c> entity object.</returns>
+        /// <returns>A <see cref="Protos.WorkerMessage"/> converted from <see cref="Entities.Worker"/> entity object.</returns>
         public static WorkerMessage FromEntity(this WorkerMessage message, Entities.Worker worker)
         {
             WorkerMessage workerMessage = new WorkerMessage()
@@ -27,10 +27,10 @@ namespace Advantica.Server
         }
 
         /// <summary>
-        /// Converts <c>WorkerMessage</c> object to <c>Worker</c> entity for performing database operations.
+        /// Converts <see cref="Protos.WorkerMessage"/> object to <see cref="Entities.Worker"/> entity for performing database operations.
         /// </summary>
         /// <param name="message"></param>
-        /// <returns>A <c>Worker</c> entity object converted from <c>WorkerMessage</c> object.</returns>
+        /// <returns><see cref="Entities.Worker"/> entity object converted from <see cref="Protos.WorkerMessage"/> object.</returns>
         public static Entities.Worker ToEntity(this WorkerMessage message)
         {
             return new Entities.Worker()

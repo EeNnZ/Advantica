@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace Advantica.Gui.Commands
 {
     /// <summary>
-    /// Asynchronous implementation of ICommand
+    /// Asynchronous implementation of ICommand. Not used.
     /// </summary>
     internal class AsynchronousCommand : ICommand
     {
