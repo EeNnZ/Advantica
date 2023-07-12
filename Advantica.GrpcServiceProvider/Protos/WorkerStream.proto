@@ -8,6 +8,7 @@ service WorkerIntegration {
 	rpc PostWorker (WorkerAction) returns (WorkerAction);
 	rpc PutWorker (WorkerAction) returns (WorkerAction);
 	rpc DeleteWorker (WorkerRowIdMessage) returns (EmptyMessage);
+	rpc CheckIfDatabaseModified (stream WorkerMessage) returns (DatabaseModifiedMessage);
 }
 
 message EmptyMessage
@@ -34,6 +35,12 @@ message WorkerMessage
 message WorkerRowIdMessage
 {
 	int32 WorkerRowId = 1;
+}
+
+message DatabaseModifiedMessage
+{
+	bool IsModified = 1;
+	int32 ModifiedEntriesCount = 2;
 }
 
 //Пол

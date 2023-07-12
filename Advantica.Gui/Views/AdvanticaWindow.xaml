@@ -38,10 +38,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
-                x:Name="textBlockSiginStatus"
+                x:Name="textBlockStatus"
                 Grid.Column="1"
                 Margin="5"
-                Text="status" />
+                Text="{Binding Status}" />
             <StackPanel HorizontalAlignment="Right" Grid.Column="1" Orientation="Horizontal" Margin="5">
                 <Label>Search</Label>
                 <TextBox x:Name="searchTextBox"

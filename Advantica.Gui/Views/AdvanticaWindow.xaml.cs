@@ -35,6 +35,7 @@ namespace Advantica.Gui.Views
             listBoxWorkers.ItemsSource = _viewModel.WorkersCollection;
             addWorkerTab.GotFocus += AddWorkerTab_GotFocus;
 
+            //Grouping and filtering
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxWorkers.ItemsSource);
             PropertyGroupDescription propertyGroupDescription = new PropertyGroupDescription("FirstName[0]");
             view.GroupDescriptions.Add(propertyGroupDescription);

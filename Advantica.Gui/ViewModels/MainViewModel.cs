@@ -9,16 +9,20 @@ using Advantica.GrpcServiceProvider;
 using System.Net.WebSockets;
 using System.ComponentModel.DataAnnotations;
 using Advantica.Gui.Options;
+using System.Windows.Threading;
+using Grpc.Core;
 
 namespace Advantica.Gui.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
         private readonly WorkerIntegration.WorkerIntegrationClient _grpcClient;
+        private System.Timers.Timer _timer;
+        private readonly Dispatcher _dispatcher;
 
 
         [ObservableProperty]
-        private string? _status;
+        private string? _status = "Ready";
 
         
         private WorkerMessage? _selectedWorker;
@@ -44,16 +48,63 @@ namespace Advantica.Gui.ViewModels
 
         public MainViewModel()
         {
+            _dispatcher = Dispatcher.CurrentDispatcher;
+
             var opProvider = new OptionsProvider();
             Options = opProvider.GetOptions();
 
             WorkersCollection = new ObservableCollection<WorkerMessage>();
             _grpcClient = new GrpcClientProvider(Options.Url).GetWorkerIntegrationClient();
+
+            _timer = new System.Timers.Timer(5000);
+            _timer.Elapsed += Timer_Elapsed;
+            _timer.Start();
+        }
+
+        private async void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        {
+            DatabaseModifiedMessage response;
+            try
+            {
+                response = await CheckIfDatabaseHasModified();
+            }
+            catch (NullReferenceException ex)
+            {
+                Status = ex.Message;
+                return;
+            }
+            
+            if (response.IsModified)
+            {
+                await _dispatcher.InvokeAsync(async() => await GetWorkersAsync());
+            }
+        }
+
+        private async Task<DatabaseModifiedMessage> CheckIfDatabaseHasModified()
+        {
+            if (WorkersCollection == null)
+            {
+                return await Task.FromException<DatabaseModifiedMessage>(new NullReferenceException(nameof(WorkersCollection)));
+            }
+
+            var call = _grpcClient.CheckIfDatabaseModified();
+            foreach (var worker in WorkersCollection)
+            {
+                await call.RequestStream.WriteAsync(worker);
+            }
+
+            await call.RequestStream.CompleteAsync();
+
+            var serverResponse = call.ResponseAsync;
+
+            return await serverResponse;
         }
 
         [RelayCommand]
         private async Task GetWorkersAsync()
         {
+            this.Status = "Updating...";
+
             WorkersCollection?.Clear();
             var responseStream = _grpcClient.GetWorkerStream(new EmptyMessage()).ResponseStream;
 
@@ -62,6 +113,8 @@ namespace Advantica.Gui.ViewModels
                 var response = responseStream.Current;
                 WorkersCollection?.Add(response.Worker);
             }
+
+            this.Status = "Ready";
         }
 
         [RelayCommand]

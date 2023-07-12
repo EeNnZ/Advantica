@@ -12,6 +12,26 @@ namespace Advantica.Server.Services
             _dbContext = context;
         }
 
+        public override async Task<DatabaseModifiedMessage> CheckIfDatabaseModified(IAsyncStreamReader<WorkerMessage> requestStream, ServerCallContext context)
+        {
+            var entries = _dbContext.Workers.ToArray();
+            int counter = 0;
+            await foreach (var workerMessage in requestStream.ReadAllAsync()) 
+            {
+                bool exists = await _dbContext.Workers.AnyAsync(wm => wm.Id == workerMessage.RowIdMessage.WorkerRowId);
+                if (!exists)
+                {
+                    counter++;
+                }
+            }
+            var response = new DatabaseModifiedMessage()
+            {
+                IsModified = counter > 0,
+                ModifiedEntriesCount = counter,
+            };
+
+            return response;
+        }
         /// <summary>
         /// Writes all workers into response stream.
         /// </summary>
