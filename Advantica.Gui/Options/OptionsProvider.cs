@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Advantica.Gui.Options
 {
-    public class OptionsProvider
+    public class OptionsProvider : IOptionsProvider
     {
-        private IOptions? _options = null;
+        private IOptions? _options;
 
 
         public OptionsProvider() { }

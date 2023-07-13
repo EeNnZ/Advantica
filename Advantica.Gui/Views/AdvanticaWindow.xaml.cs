@@ -26,13 +26,13 @@ namespace Advantica.Gui.Views
     public partial class AdvanticaWindow : Window
     {
         MainViewModel _viewModel;
-        public AdvanticaWindow()
+        public AdvanticaWindow(MainViewModel mainViewModel)
         {
             InitializeComponent();
 
-            //_viewModel = new MainViewModel();
-            //DataContext = _viewModel;
-            //listBoxWorkers.ItemsSource = _viewModel.WorkersCollection;
+            _viewModel = mainViewModel;
+            DataContext = _viewModel;
+            listBoxWorkers.ItemsSource = _viewModel.WorkersCollection;
             addWorkerTab.GotFocus += AddWorkerTab_GotFocus;
 
             //Grouping and filtering

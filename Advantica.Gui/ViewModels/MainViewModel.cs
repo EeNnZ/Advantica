@@ -21,7 +21,6 @@ namespace Advantica.Gui.ViewModels
         private System.Timers.Timer _timer;
         private readonly Dispatcher _dispatcher;
 
-
         [ObservableProperty]
         private string? _status = "Ready";
 
@@ -29,14 +28,12 @@ namespace Advantica.Gui.ViewModels
         private bool _dynamicCheck = false;
 
         private WorkerMessage? _selectedWorker;
+        //TODO: Bug: after adding or updating selected worker freezes and not changes until GetWorkers being called manually
         public WorkerMessage? SelectedWorker
         {
             get
             {
-                if (_selectedWorker == null)
-                {
-                    _selectedWorker = new WorkerMessage();
-                }
+                _selectedWorker ??= new WorkerMessage();
                 return _selectedWorker;
             }
             set
@@ -49,20 +46,37 @@ namespace Advantica.Gui.ViewModels
 
         public IOptions Options { get; }
 
-        public MainViewModel()
+        //public MainViewModel()
+        //{
+        //    _dispatcher = Dispatcher.CurrentDispatcher;
+
+        //    var opProvider = new OptionsProvider();
+        //    Options = opProvider.GetOptions();
+
+        //    WorkersCollection = new ObservableCollection<WorkerMessage>();
+        //    _grpcClient = new GrpcClientProvider(Options.Url).GetWorkerIntegrationClient();
+
+        //    _timer = new System.Timers.Timer(30_000);
+        //    _timer.Elapsed += Timer_Elapsed;
+        //    _timer.Start();
+        //}
+
+        public MainViewModel(IOptionsProvider optionsProvider)
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
 
-            var opProvider = new OptionsProvider();
-            Options = opProvider.GetOptions();
+            Options = optionsProvider.GetOptions();
+            _grpcClient = new GrpcClientProvider(Options.Url).GetWorkerIntegrationClient();
+
 
             WorkersCollection = new ObservableCollection<WorkerMessage>();
-            _grpcClient = new GrpcClientProvider(Options.Url).GetWorkerIntegrationClient();
 
             _timer = new System.Timers.Timer(30_000);
             _timer.Elapsed += Timer_Elapsed;
             _timer.Start();
         }
+
+
 
         private async void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
