@@ -95,6 +95,10 @@
                             Grid.Column="1"
                             Grid.Row="2"
                             HorizontalAlignment="Right" Margin="5">
+                            <Label >Dynamic check</Label>
+                            <CheckBox Name="dynCheck" 
+                                      IsChecked="{Binding DynamicCheck}"
+                                      VerticalContentAlignment="Center" Margin="0,0,520,0"></CheckBox>
                             <Button
                                 x:Name="DeleteButton"
                                 Grid.Column="1"

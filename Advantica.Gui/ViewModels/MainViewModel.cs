@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using Advantica.Gui.Options;
 using System.Windows.Threading;
 using Grpc.Core;
+using System.Linq;
 
 namespace Advantica.Gui.ViewModels
 {
@@ -24,11 +25,13 @@ namespace Advantica.Gui.ViewModels
         [ObservableProperty]
         private string? _status = "Ready";
 
-        
+        [ObservableProperty]
+        private bool _dynamicCheck = false;
+
         private WorkerMessage? _selectedWorker;
         public WorkerMessage? SelectedWorker
         {
-            get 
+            get
             {
                 if (_selectedWorker == null)
                 {
@@ -56,13 +59,15 @@ namespace Advantica.Gui.ViewModels
             WorkersCollection = new ObservableCollection<WorkerMessage>();
             _grpcClient = new GrpcClientProvider(Options.Url).GetWorkerIntegrationClient();
 
-            _timer = new System.Timers.Timer(5000);
+            _timer = new System.Timers.Timer(30_000);
             _timer.Elapsed += Timer_Elapsed;
             _timer.Start();
         }
 
         private async void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            if (!DynamicCheck) return;
+
             DatabaseModifiedMessage response;
             try
             {
@@ -76,19 +81,25 @@ namespace Advantica.Gui.ViewModels
             
             if (response.IsModified)
             {
-                await _dispatcher.InvokeAsync(async() => await GetWorkersAsync());
+                await _dispatcher.InvokeAsync(GetWorkersAsync);
+            }
+            else
+            {
+                Status = "All synced";
             }
         }
 
         private async Task<DatabaseModifiedMessage> CheckIfDatabaseHasModified()
         {
+            Status = "Checking...";
             if (WorkersCollection == null)
             {
                 return await Task.FromException<DatabaseModifiedMessage>(new NullReferenceException(nameof(WorkersCollection)));
             }
 
             var call = _grpcClient.CheckIfDatabaseModified();
-            foreach (var worker in WorkersCollection)
+            var workersLocal = WorkersCollection.ToArray();
+            foreach (var worker in workersLocal)
             {
                 await call.RequestStream.WriteAsync(worker);
             }
@@ -130,7 +141,7 @@ namespace Advantica.Gui.ViewModels
                 };
                 var result = await _grpcClient.PostWorkerAsync(createAction);
                 SelectedWorker = null;
-                await GetWorkersAsync();
+                await GetWorkersCommand.ExecuteAsync(null);
             }
             
         }
@@ -148,7 +159,7 @@ namespace Advantica.Gui.ViewModels
                 };
                 var result = await _grpcClient.PutWorkerAsync(updateAction);
                 SelectedWorker = null;
-                await GetWorkersAsync();
+                await GetWorkersCommand.ExecuteAsync(null);
             }
         }
 
@@ -160,7 +171,7 @@ namespace Advantica.Gui.ViewModels
                 var result = await _grpcClient.DeleteWorkerAsync(SelectedWorker.RowIdMessage);
                 SelectedWorker = null;
                 //TODO: Use result?
-                await GetWorkersAsync();
+                await GetWorkersCommand.ExecuteAsync(null);
             }
         }
 
