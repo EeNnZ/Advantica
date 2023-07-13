@@ -22,8 +22,6 @@ namespace Advantica.Server
                 op.LogTo(s =>
                 {
                     Debug.WriteLine(s);
-                    using TextWriter writer = File.AppendText("app_log.txt");
-                    writer.WriteLine(s);
                 });
             });
 
