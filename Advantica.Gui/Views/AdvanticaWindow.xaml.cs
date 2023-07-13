@@ -30,21 +30,31 @@ namespace Advantica.Gui.Views
         {
             InitializeComponent();
 
-            _viewModel = new MainViewModel();
-            DataContext = _viewModel;
-            listBoxWorkers.ItemsSource = _viewModel.WorkersCollection;
+            //_viewModel = new MainViewModel();
+            //DataContext = _viewModel;
+            //listBoxWorkers.ItemsSource = _viewModel.WorkersCollection;
             addWorkerTab.GotFocus += AddWorkerTab_GotFocus;
 
             //Grouping and filtering
+            SetupGroupingAndFiltering();
+        }
+
+        private void SetupGroupingAndFiltering()
+        {
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxWorkers.ItemsSource);
             PropertyGroupDescription propertyGroupDescription = new PropertyGroupDescription("FirstName[0]");
             view.GroupDescriptions.Add(propertyGroupDescription);
             view.Filter = (item) =>
             {
                 if (string.IsNullOrEmpty(searchTextBox.Text)) return true;
-                else 
+                else
                     return ((WorkerMessage)item).FirstName.Contains(searchTextBox.Text, StringComparison.OrdinalIgnoreCase);
             };
+        }
+
+        private void searchTextBlock_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(listBoxWorkers.ItemsSource).Refresh();
         }
 
         private void AddWorkerTab_GotFocus(object sender, RoutedEventArgs e)
@@ -54,20 +64,7 @@ namespace Advantica.Gui.Views
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxWorkers.SelectedItem != null)
-            {
-                if (_viewModel.SelectedWorker != null)
-                {
-                    var updateWindow = new UpdateWindow((MainViewModel)DataContext);
-                    updateWindow.Show();
-                }
-            }
-            else MessageBox.Show("Select row before deleting", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private void searchTextBlock_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(listBoxWorkers.ItemsSource).Refresh();
+            updateWorkerTab.Focus();
         }
     }
 }

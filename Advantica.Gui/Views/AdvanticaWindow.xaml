@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Advantica.Gui.ViewModels"
     xmlns:converters="clr-namespace:Advantica.Gui.Converters"
+    xmlns:views="clr-namespace:Advantica.Gui.Views"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     x:Class="Advantica.Gui.Views.AdvanticaWindow"
     mc:Ignorable="d"
@@ -109,14 +110,27 @@
                                 Grid.Column="1"
                                 Grid.Row="2"
                                 MinWidth="75"
+                                Content="Update"
                                 Click="UpdateButton_Click"
-                                Content="Update" 
                                 FontSize="14"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Add worker" x:Name="addWorkerTab">
-                    <Grid Margin="5">
+                    <StackPanel>
+                        <views:AddUpdateControl>
+                        </views:AddUpdateControl>
+                        <Button
+                            Grid.Row="6"
+                            Grid.ColumnSpan="2"
+                            MinWidth="75"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding CreateNewWorkerCommand}"
+                            CommandParameter="{Binding SelectedWorker}"
+                            Content="Add" />
+                    </StackPanel>
+                    <!--<Grid Margin="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
@@ -158,7 +172,22 @@
                             Command="{Binding CreateNewWorkerCommand}"
                             CommandParameter="{Binding SelectedWorker}"
                             Content="Add" />
-                    </Grid>
+                    </Grid>-->
+                </TabItem>
+                <TabItem Header="Update worker" Name="updateWorkerTab">
+                    <StackPanel>
+                        <views:AddUpdateControl>
+                        </views:AddUpdateControl>
+                        <Button
+                            Grid.Row="6"
+                            Grid.ColumnSpan="2"
+                            MinWidth="75"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding UpdateWorkerCommand}"
+                            CommandParameter="{Binding SelectedWorker}"
+                            Content="Update" />
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </Grid>
