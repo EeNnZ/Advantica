@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace Advantica.Gui.Commands
 {
@@ -70,7 +65,7 @@ namespace Advantica.Gui.Commands
         {
             if (parameter == null) return;
 
-            _action((T) parameter);
+            _action((T)parameter);
         }
 
     }

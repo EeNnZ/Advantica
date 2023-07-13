@@ -1,12 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Grpc.Net.Client;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Advantica.GrpcServiceProvider;
+﻿using Advantica.GrpcServiceProvider;
 using Advantica.IntegrationSystem.Options;
 
 using Timer = System.Timers.Timer;
@@ -124,7 +116,7 @@ namespace Advantica.IntegrationSystem.Services
                     Birthday = new DateTime(random.Next(1950, 2004), random.Next(1, 12), random.Next(1, 30)).ToBinary(),
                     HasChildren = random.Next(2) == 1,
                     //TODO: Gender api
-                    Sex = (GrpcServiceProvider.Protos.Sex)random.Next(1,3),
+                    Sex = (GrpcServiceProvider.Protos.Sex)random.Next(1, 3),
                     RowIdMessage = new GrpcServiceProvider.Protos.WorkerRowIdMessage() { WorkerRowId = 0 }
                 }
             };

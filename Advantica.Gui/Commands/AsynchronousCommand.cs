@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -33,7 +29,7 @@ namespace Advantica.Gui.Commands
 
         public void Execute(object? parameter)
         {
-            Task.Run(() => 
+            Task.Run(() =>
             {
                 _canExecute = () => false;
                 _action();
@@ -64,7 +60,7 @@ namespace Advantica.Gui.Commands
         {
             if (parameter == null) return false;
 
-            return _canExecute((T) parameter);
+            return _canExecute((T)parameter);
         }
 
         public void Execute(object? parameter)
@@ -74,7 +70,7 @@ namespace Advantica.Gui.Commands
             Task.Run(() =>
             {
                 _canExecute = x => false;
-                _action((T) parameter);
+                _action((T)parameter);
                 _canExecute = x => true;
             });
         }

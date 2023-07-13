@@ -1,17 +1,13 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Advantica.GrpcServiceProvider;
+using Advantica.GrpcServiceProvider.Protos;
+using Advantica.Gui.Options;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Advantica.GrpcServiceProvider.Protos;
-using CommunityToolkit.Mvvm.Collections;
-using Advantica.GrpcServiceProvider;
-using System.Net.WebSockets;
-using System.ComponentModel.DataAnnotations;
-using Advantica.Gui.Options;
-using System.Windows.Threading;
-using Grpc.Core;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Advantica.Gui.ViewModels
 {
@@ -92,7 +88,7 @@ namespace Advantica.Gui.ViewModels
                 Status = ex.Message;
                 return;
             }
-            
+
             if (response.IsModified)
             {
                 await _dispatcher.InvokeAsync(GetWorkersAsync);
@@ -133,7 +129,7 @@ namespace Advantica.Gui.ViewModels
             WorkersCollection?.Clear();
             var responseStream = _grpcClient.GetWorkerStream(new EmptyMessage()).ResponseStream;
 
-            while(await responseStream.MoveNext(new System.Threading.CancellationToken()))
+            while (await responseStream.MoveNext(new System.Threading.CancellationToken()))
             {
                 var response = responseStream.Current;
                 WorkersCollection?.Add(response.Worker);
@@ -157,7 +153,7 @@ namespace Advantica.Gui.ViewModels
                 SelectedWorker = null;
                 await GetWorkersCommand.ExecuteAsync(null);
             }
-            
+
         }
 
         [RelayCommand]

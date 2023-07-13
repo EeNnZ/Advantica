@@ -1,5 +1,4 @@
 ﻿using Advantica.Server.Protos;
-using System.Runtime.CompilerServices;
 
 namespace Advantica.Server
 {

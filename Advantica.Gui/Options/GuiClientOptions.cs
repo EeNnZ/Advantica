@@ -1,9 +1,4 @@
 ﻿using Advantica.GrpcServiceProvider;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Advantica.Gui.Options
 {
@@ -11,9 +6,9 @@ namespace Advantica.Gui.Options
     {
         private string _url = "";
 
-        public string Url 
+        public string Url
         {
-            get => _url; 
+            get => _url;
             set => _url = value ?? "";
         }
     }

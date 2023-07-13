@@ -1,6 +1,5 @@
-﻿using Grpc.Net.Client;
-using Advantica.GrpcServiceProvider.Protos;
-using Google.Protobuf.WellKnownTypes;
+﻿using Advantica.GrpcServiceProvider.Protos;
+using Grpc.Net.Client;
 
 namespace Advantica.GrpcServiceProvider
 {
@@ -46,7 +45,7 @@ namespace Advantica.GrpcServiceProvider
 
         private bool UrlValid(string value)
         {
-            bool valid = Uri.TryCreate(value, UriKind.Absolute, out Uri? uriResult) && 
+            bool valid = Uri.TryCreate(value, UriKind.Absolute, out Uri? uriResult) &&
                                       (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
             return valid;
         }

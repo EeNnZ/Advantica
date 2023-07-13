@@ -1,5 +1,5 @@
-﻿using Grpc.Core;
-using Advantica.Server.Protos;
+﻿using Advantica.Server.Protos;
+using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Advantica.Server.Services
@@ -21,7 +21,7 @@ namespace Advantica.Server.Services
         {
             var entries = _dbContext.Workers.ToArray();
             int counter = 0;
-            await foreach (var workerMessage in requestStream.ReadAllAsync()) 
+            await foreach (var workerMessage in requestStream.ReadAllAsync())
             {
                 bool exists = await _dbContext.Workers.AnyAsync(wm => wm.Id == workerMessage.RowIdMessage.WorkerRowId);
                 if (!exists)
